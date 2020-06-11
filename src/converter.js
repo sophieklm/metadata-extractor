@@ -1,31 +1,10 @@
-const xml2js = require("xml2js");
-const fs = require("fs").promises;
 const { Book, Author, Subject } = require("./db");
+const { convert } = require("./helpers");
 
-const processors = xml2js.processors;
-
-const parser = new xml2js.Parser({
-  tagNameProcessors: [processors.stripPrefix],
-});
-
-const parseFile = async (pathname) => {
-  try {
-    const data = await fs.readFile(pathname);
-    return parse(data);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const parse = (data) => {
-  return parser
-    .parseStringPromise(data)
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const process = (file) => {
+  convert(file).then((data) => {
+    saveData(data);
+  });
 };
 
 const saveData = (data) => {
@@ -33,37 +12,58 @@ const saveData = (data) => {
   const authors = base["creator"];
   const subjects = base["subject"];
   return createBook(data).then((book) => {
-    authors.forEach(async (author) => {
-      const [a] = await Author.findOrCreate({
-        where: { name: author["agent"][0]["name"][0] },
-      });
-      book.addAuthor(a);
-    });
-    subjects.forEach(async (subject) => {
-      const [s] = await Subject.findOrCreate({
-        where: { value: subject["Description"][0]["value"][0] },
-      });
-      book.addSubject(s);
-    });
+    if (authors) {
+      createAuthors(authors, book);
+    }
+    if (subjects) {
+      createSubjects(subjects, book);
+    }
   });
 };
 
 const createBook = (result) => {
   const base = result["RDF"]["ebook"][0];
+  const book_id = base["$"]["rdf:about"];
+  const language = base["language"][0]["Description"][0]["value"][0]["_"];
+  const license_rights = base["rights"][0];
+  const publisher = base["publisher"][0];
+  const publication_date = base["issued"][0]["_"];
+  const title = base["title"][0];
+
   return Book.create({
-    book_id: base["$"]["rdf:about"],
-    language: base["language"][0]["Description"][0]["value"][0]["_"],
-    license_rights: base["rights"][0],
-    publisher: base["publisher"][0],
-    publication_date: base["issued"][0]["_"],
-    title: base["title"][0],
+    book_id: book_id ? book_id : undefined,
+    language: language ? language : undefined,
+    license_rights: license_rights ? license_rights : undefined,
+    publisher: publisher ? publisher : undefined,
+    publication_date: publication_date ? publication_date : undefined,
+    title: title ? title : undefined,
   });
 };
 
-const convert = (file) => {
-  parseFile(file).then((data) => {
-    saveData(data);
+const createAuthors = (authors, book) => {
+  authors.forEach(async (author) => {
+    const name = author["agent"][0]["name"][0];
+    const [a] = await Author.findOrCreate({
+      where: { name },
+    });
+    book.addAuthor(a);
   });
 };
 
-module.exports = { parse, convert, createBook };
+const createSubjects = (subjects, book) => {
+  subjects.forEach(async (subject) => {
+    const value = subject["Description"][0]["value"][0];
+    const [s] = await Subject.findOrCreate({
+      where: { value: value },
+    });
+    book.addSubject(s);
+  });
+};
+
+module.exports = {
+  process,
+  createBook,
+  createSubjects,
+  createAuthors,
+  saveData,
+};
