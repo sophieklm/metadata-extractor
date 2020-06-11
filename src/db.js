@@ -1,4 +1,7 @@
 const Sequelize = require("sequelize");
+const BookModel = require("./models/Book");
+const AuthorModel = require("./models/Author");
+const SubjectModel = require("./models/Subject");
 
 const sequelize = new Sequelize(
   process.env.DATABASE,
@@ -9,4 +12,13 @@ const sequelize = new Sequelize(
   }
 );
 
-module.exports = sequelize;
+const Book = BookModel(sequelize, Sequelize);
+const Author = AuthorModel(sequelize, Sequelize);
+const Subject = SubjectModel(sequelize, Sequelize);
+
+module.exports = {
+  sequelize,
+  Book,
+  Author,
+  Subject,
+};
