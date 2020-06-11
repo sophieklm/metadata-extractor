@@ -2,7 +2,7 @@ const {
   sequelize,
   dataTypes,
   checkModelName,
-  checkUniqueIndex,
+  checkNonUniqueIndex,
   checkPropertyExists,
 } = require("sequelize-test-helpers");
 
@@ -21,5 +21,9 @@ describe("Book", () => {
       "language",
       "license_rights",
     ].forEach(checkPropertyExists(book));
+  });
+
+  describe("indexes", () => {
+    ["title", "publication_date"].forEach(checkNonUniqueIndex(book));
   });
 });
