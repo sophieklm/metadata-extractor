@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha -w --require ./test/test_helper.js"
+    "test": "nyc --reporter=text mocha --require ./test/test_helper.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
     "sequelize-test-helpers": "^1.2.2",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0"
