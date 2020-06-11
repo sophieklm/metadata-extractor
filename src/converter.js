@@ -1,8 +1,9 @@
 const xml2js = require("xml2js");
 const fs = require("fs").promises;
-const { sequelize, Book } = require("./db");
+const { Book } = require("./db");
 
 const processors = xml2js.processors;
+
 const parser = new xml2js.Parser({
   tagNameProcessors: [processors.stripPrefix],
 });
@@ -28,9 +29,7 @@ const parse = (data) => {
 };
 
 const saveData = (data) => {
-  sequelize.sync({ force: true }).then(() => {
-    return createBook(data);
-  });
+  return createBook(data);
 };
 
 const createBook = (result) => {
@@ -45,8 +44,10 @@ const createBook = (result) => {
   });
 };
 
-parseFile("./pg9.rdf").then((data) => {
-  saveData(data);
-});
+const convert = (file) => {
+  parseFile(file).then((data) => {
+    saveData(data);
+  });
+};
 
-module.exports = parse;
+module.exports = { parse, convert, saveData };

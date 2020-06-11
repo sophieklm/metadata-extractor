@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "nyc --reporter=text mocha --require ./test/test_helper.js"
   },
   "author": "",
@@ -13,6 +13,7 @@
     "chai": "^4.2.0",
     "mocha": "^8.0.1",
     "nyc": "^15.1.0",
+    "sequelize-mock": "^0.10.2",
     "sequelize-test-helpers": "^1.2.2",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0"

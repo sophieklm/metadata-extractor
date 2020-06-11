@@ -13,12 +13,12 @@ const sequelize = new Sequelize(
 );
 
 const Book = BookModel(sequelize, Sequelize);
-const Author = AuthorModel(sequelize, Sequelize);
+// const Author = AuthorModel(sequelize, Sequelize);
 const Subject = SubjectModel(sequelize, Sequelize);
 
 module.exports = {
   sequelize,
   Book,
-  Author,
+  // Author,
   Subject,
 };
