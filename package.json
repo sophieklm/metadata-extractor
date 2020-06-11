@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest --maxWorkers=1 --watchAll --verbose"
+    "test": "mocha -w --require ./test/test_helper.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
-    "jest": "^26.0.1",
+    "mocha": "^8.0.1",
     "sequelize-test-helpers": "^1.2.2",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0"
   },
   "dependencies": {
     "pg": "^8.2.1",

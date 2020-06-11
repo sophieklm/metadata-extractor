@@ -35,6 +35,11 @@ const model = (sequelize, DataTypes) => {
       ],
     }
   );
+
+  Book.associate = ({ Author }) => {
+    Book.belongsToMany(Author);
+  };
+
   return Book;
 };
 
