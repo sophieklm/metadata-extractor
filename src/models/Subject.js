@@ -1,7 +1,5 @@
-const sequelize = require("../db");
-
 const model = (sequelize, DataTypes) => {
-  const Subject = sequelize.define("Subject", {
+  const Subject = sequelize.define("subject", {
     value: { type: DataTypes.STRING },
   });
 

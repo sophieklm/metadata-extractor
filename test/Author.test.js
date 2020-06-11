@@ -13,7 +13,7 @@ const AuthorModel = require("../src/models/Author");
 describe("Author", () => {
   const Author = AuthorModel(sequelize, dataTypes);
   const author = new Author();
-  checkModelName(Author)("Author");
+  checkModelName(Author)("author");
 
   context("properties", () => {
     ["name"].forEach(checkPropertyExists(author));

@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
-const { parse, saveData } = require("../src/converter");
+const { parse, createBook } = require("../src/converter");
 const { Book } = require("../src/db");
 const SequelizeMock = require("sequelize-mock");
 
@@ -52,14 +52,14 @@ describe("Converter", () => {
     });
   });
 
-  context("saveData", async () => {
+  context("createBook", async () => {
     it("calls Book.create", async () => {
-      const book = await saveData(jsonBook);
+      const book = await createBook(jsonBook);
       expect(Book.create).to.have.been.calledWith(fakeBook);
     });
 
     it("returns the book", async () => {
-      const book = await saveData(jsonBook);
+      const book = await createBook(jsonBook);
       expect(book).to.deep.equal(BookMock);
     });
   });

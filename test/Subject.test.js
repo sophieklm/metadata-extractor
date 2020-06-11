@@ -12,7 +12,7 @@ const SubjectModel = require("../src/models/Subject");
 describe("Subject", () => {
   const Subject = SubjectModel(sequelize, dataTypes);
   const subject = new Subject();
-  checkModelName(Subject)("Subject");
+  checkModelName(Subject)("subject");
 
   context("properties", () => {
     ["value"].forEach(checkPropertyExists(subject));

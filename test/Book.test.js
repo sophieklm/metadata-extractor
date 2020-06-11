@@ -13,7 +13,7 @@ const BookModel = require("../src/models/Book");
 describe("Book", () => {
   const Book = BookModel(sequelize, dataTypes);
   const book = new Book();
-  checkModelName(Book)("Book");
+  checkModelName(Book)("book");
   context("properties", () => {
     [
       "book_id",

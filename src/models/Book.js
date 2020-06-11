@@ -1,8 +1,6 @@
-const sequelize = require("../db");
-
 const model = (sequelize, DataTypes) => {
   const Book = sequelize.define(
-    "Book",
+    "book",
     {
       book_id: {
         type: DataTypes.STRING,

@@ -1,6 +1,6 @@
 const xml2js = require("xml2js");
 const fs = require("fs").promises;
-const { Book } = require("./db");
+const { Book, Author, Subject } = require("./db");
 
 const processors = xml2js.processors;
 
@@ -29,7 +29,23 @@ const parse = (data) => {
 };
 
 const saveData = (data) => {
-  return createBook(data);
+  const base = data["RDF"]["ebook"][0];
+  const authors = base["creator"];
+  const subjects = base["subject"];
+  return createBook(data).then((book) => {
+    authors.forEach(async (author) => {
+      const [a] = await Author.findOrCreate({
+        where: { name: author["agent"][0]["name"][0] },
+      });
+      book.addAuthor(a);
+    });
+    subjects.forEach(async (subject) => {
+      const [s] = await Subject.findOrCreate({
+        where: { value: subject["Description"][0]["value"][0] },
+      });
+      book.addSubject(s);
+    });
+  });
 };
 
 const createBook = (result) => {
@@ -50,4 +66,4 @@ const convert = (file) => {
   });
 };
 
-module.exports = { parse, convert, saveData };
+module.exports = { parse, convert, createBook };
