@@ -36,8 +36,15 @@ const model = (sequelize, DataTypes) => {
     }
   );
 
-  Book.associate = ({ Author }) => {
-    Book.belongsToMany(Author);
+  Book.associate = ({ Author, Subject }) => {
+    Book.belongsToMany(Author, {
+      through: "author_book",
+      foreignKey: "bookId",
+    });
+    Book.belongsToMany(Subject, {
+      through: "book_subject",
+      foreignKey: "bookId",
+    });
   };
 
   return Book;

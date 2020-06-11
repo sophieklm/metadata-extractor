@@ -31,13 +31,25 @@ describe("Book", () => {
 
   context("associations", () => {
     const Author = "Author";
+    const Subject = "Subject";
 
     before(() => {
       Book.associate({ Author });
+      Book.associate({ Subject });
     });
 
     it("defined a belongsToMany association with Author", () => {
-      expect(Book.belongsToMany).to.have.been.calledWith(Author);
+      expect(Book.belongsToMany).to.have.been.calledWith(Author, {
+        foreignKey: "bookId",
+        through: "author_book",
+      });
+    });
+
+    it("defined a belongsToMany association with Subject", () => {
+      expect(Book.belongsToMany).to.have.been.calledWith(Subject, {
+        foreignKey: "bookId",
+        through: "book_subject",
+      });
     });
   });
 });

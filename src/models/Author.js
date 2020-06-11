@@ -12,7 +12,10 @@ const model = (sequelize, DataTypes) => {
   );
 
   Author.associate = ({ Book }) => {
-    Author.belongsToMany(Book);
+    Author.belongsToMany(Book, {
+      through: "author_book",
+      foreignKey: "authorId",
+    });
   };
 
   return Author;

@@ -14,11 +14,12 @@ describe("Author", () => {
   const Author = AuthorModel(sequelize, dataTypes);
   const author = new Author();
   checkModelName(Author)("Author");
-  describe("properties", () => {
+
+  context("properties", () => {
     ["name"].forEach(checkPropertyExists(author));
   });
 
-  describe("indexes", () => {
+  context("indexes", () => {
     ["name"].forEach(checkNonUniqueIndex(author));
   });
 
@@ -30,7 +31,10 @@ describe("Author", () => {
     });
 
     it("defined a belongsToMany association with Book", () => {
-      expect(Author.belongsToMany).to.have.been.calledWith(Book);
+      expect(Author.belongsToMany).to.have.been.calledWith(Book, {
+        foreignKey: "authorId",
+        through: "author_book",
+      });
     });
   });
 });
