@@ -28,22 +28,18 @@ const model = (sequelize, DataTypes) => {
       subjects: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
+      authors: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
     },
     {
       indexes: [
         { unique: false, fields: ["title"] },
         { unique: false, fields: ["publication_date"] },
+        { unique: false, fields: ["authors"] },
       ],
     }
   );
-
-  Book.associate = ({ Author, Subject }) => {
-    Book.belongsToMany(Author, {
-      through: "author_book",
-      foreignKey: "bookId",
-    });
-  };
-
   return Book;
 };
 

@@ -23,25 +23,11 @@ describe("Book", () => {
       "language",
       "license_rights",
       "subjects",
+      "authors",
     ].forEach(checkPropertyExists(book));
   });
 
   context("indexes", () => {
-    ["title", "publication_date"].forEach(checkNonUniqueIndex(book));
-  });
-
-  context("associations", () => {
-    const Author = "Author";
-
-    before(() => {
-      Book.associate({ Author });
-    });
-
-    it("defined a belongsToMany association with Author", () => {
-      expect(Book.belongsToMany).to.have.been.calledWith(Author, {
-        foreignKey: "bookId",
-        through: "author_book",
-      });
-    });
+    ["title", "publication_date", "authors"].forEach(checkNonUniqueIndex(book));
   });
 });
