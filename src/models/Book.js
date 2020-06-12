@@ -25,6 +25,9 @@ const model = (sequelize, DataTypes) => {
       license_rights: {
         type: DataTypes.STRING,
       },
+      subjects: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
     },
     {
       indexes: [
@@ -37,10 +40,6 @@ const model = (sequelize, DataTypes) => {
   Book.associate = ({ Author, Subject }) => {
     Book.belongsToMany(Author, {
       through: "author_book",
-      foreignKey: "bookId",
-    });
-    Book.belongsToMany(Subject, {
-      through: "book_subject",
       foreignKey: "bookId",
     });
   };
