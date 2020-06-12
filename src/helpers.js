@@ -17,8 +17,9 @@ const convert = async (pathname) => {
 };
 
 const parse = (data) => {
+  const cleaned = data.toString().replace("\ufeff", "");
   return parser
-    .parseStringPromise(data)
+    .parseStringPromise(cleaned)
     .then((result) => {
       return result;
     })
