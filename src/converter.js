@@ -1,7 +1,7 @@
 const { Book, Author } = require("./db");
 const { convert } = require("./helpers");
 
-const process = (file) => {
+const transform = (file) => {
   convert(file).then((data) => {
     return createBook(data);
   });
@@ -34,18 +34,20 @@ const createBook = (result) => {
 
 const createAuthors = (authors) => {
   return authors.map((author) => {
-    return author["agent"][0]["name"][0];
+    const a = author["agent"]?.[0]?.["name"]?.[0];
+    return a ? a : "";
   });
 };
 
 const createSubjects = (subjects) => {
   return subjects.map((subject) => {
-    return subject["Description"][0]["value"][0];
+    const s = subject["Description"]?.[0]?.["value"]?.[0];
+    return s ? s : "";
   });
 };
 
 module.exports = {
-  process,
+  transform,
   createBook,
   createSubjects,
   createAuthors,

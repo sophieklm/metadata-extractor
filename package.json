@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --harmony src/index.js",
-    "test": "nyc --reporter=text mocha --harmony --require ./test/test_helper.js"
+    "test": "nyc --reporter=html --reporter=text mocha --harmony --require ./test/test_helper.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "sinon-chai": "^3.5.0"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "graceful-fs": "^4.2.4",
     "pg": "^8.2.1",
     "sequelize": "^5.21.12",

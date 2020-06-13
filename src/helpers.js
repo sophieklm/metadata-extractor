@@ -1,5 +1,5 @@
 const xml2js = require("xml2js");
-const fs = require("fs").promises;
+const fs = require("graceful-fs").promises;
 
 const processors = xml2js.processors;
 
